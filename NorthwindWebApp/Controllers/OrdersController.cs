@@ -96,7 +96,23 @@ namespace NorthwindWebApp.Controllers
 
                     transaction.Commit();  // Commit transaction if all operations succeed
 
-                    return Ok("Order successfully created");
+                    // Get the newly created order details
+                    var customerId = customer.CustomerId;
+                    var orderId = order.OrderId;
+                    var productIds = orderRequest.ProductIDs;
+
+                    // Create a response object with the additional details
+                    var response = new
+                    {
+                        Message = "Order successfully created",
+                        CustomerId = customerId,
+                        OrderId = orderId,
+                        ProductIds = productIds
+                    };
+
+                    return Ok(response); // Return the response object
+
+                    return Ok(order);
                 }
             }
             catch (Exception ex)

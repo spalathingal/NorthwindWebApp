@@ -14,8 +14,5 @@ Quantity, Price, In Stock Units.
 
 ## To Run
 - Import project into Visual Studio
-- Click Run (https) in Visual Studio
-
-## Results
-- GET output: get_response.json
-- POST output: "New Product 1" can be seen in get response
+- Click Run (https) in Visual Studio to launch webpage
+- Click button corresponding to HTTP request
