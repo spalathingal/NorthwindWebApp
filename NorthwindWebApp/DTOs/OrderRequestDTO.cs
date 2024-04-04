@@ -6,11 +6,9 @@ namespace NorthwindWebApp.DTOs
     {
         // references existing model classes
         public Customer Customer { get; set; }
-        public List<Product> Products { get; set; }
+        public List<int> ProductIDs { get; set; }
 
         // order fields
-        public int OrderId { get; set; }
-        public string CustomerId { get; set; }
         public int EmployeeId { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime RequiredDate { get; set; }

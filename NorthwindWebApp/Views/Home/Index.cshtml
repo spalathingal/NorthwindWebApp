@@ -4,5 +4,61 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>Click on a button below to conduct a REST API request.</p>
+
+    <button id="getButton" class="btn btn-primary">GET Request</button>
+    <button id="postButton" class="btn btn-primary">POST Request</button>
+
+    <div class="mt-4">
+        <label for="jsonData">Enter JSON Data:</label>
+        <textarea id="jsonData" class="form-control" rows="5"></textarea>
+        <button id="submitJson" class="btn btn-success mt-2">Submit</button>
+    </div>
+
+    <div id="output" style="margin-top: 20px;"></div>
 </div>
+
+@section Scripts {
+    <script>
+        // Function to make a GET request
+        function makeGetRequest() {
+            $.get("/api/products", function (data) {
+                // Display the data received from the GET request
+                $("#output").html("<pre>" + JSON.stringify(data, null, 2) + "</pre>");
+            });
+        }
+
+        // Function to make a POST request
+        function makePostRequest(jsonData) {
+            $.ajax({
+                url: "/api/orders",
+                type: "POST",
+                contentType: "application/json",
+                data: jsonData,
+                success: function (data) {
+                    // Display the data received from the POST request
+                    $("#output").html("<pre>" + JSON.stringify(data, null, 2) + "</pre>");
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // Display any error that occurred during the POST request
+                    $("#output").html("<p>Error: " + errorThrown + "</p>");
+                }
+            });
+        }
+
+        // Attach click event handlers to the buttons
+        $("#getButton").click(function () {
+            makeGetRequest();
+        });
+
+        $("#postButton").click(function () {
+            var jsonData = $("#jsonData").val();
+            makePostRequest(jsonData);
+        });
+
+        $("#submitJson").click(function () {
+            var jsonData = $("#jsonData").val();
+            makePostRequest(jsonData);
+        });
+    </script>
+}

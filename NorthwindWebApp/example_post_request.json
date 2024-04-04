@@ -1,6 +1,5 @@
 {
   "customer": {
-    "customerId": "NEWCUST",
     "companyName": "New Customer Company",
     "contactName": "John Doe",
     "contactTitle": "CEO",
@@ -12,34 +11,7 @@
     "phone": "123-456-7890",
     "fax": "123-456-7891"
   },
-  "products": [
-    {
-      "productId": 101,
-      "productName": "New Product 1",
-      "supplierId": 11,
-      "categoryId": 6,
-      "quantityPerUnit": "24 - 12 oz bottles",
-      "unitPrice": 15,
-      "unitsInStock": 100,
-      "unitsOnOrder": 20,
-      "reorderLevel": 10,
-      "discontinued": false
-    },
-    {
-      "productId": 102,
-      "productName": "New Product 2",
-      "supplierId": 12,
-      "categoryId": 7,
-      "quantityPerUnit": "12 - 16 oz cans",
-      "unitPrice": 10,
-      "unitsInStock": 50,
-      "unitsOnOrder": 0,
-      "reorderLevel": 20,
-      "discontinued": false
-    }
-  ],
-  "orderId": 1001,
-  "customerId": "NEWCUST",
+  "productIDs": [ 101, 102 ],
   "employeeId": 5,
   "orderDate": "2024-04-06T08:00:00",
   "requiredDate": "2024-04-20T08:00:00",

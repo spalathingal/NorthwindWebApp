@@ -20,7 +20,7 @@ namespace NorthwindWebApp.Controllers
         public IActionResult PostOrder(OrderRequestDTO orderRequest)
         {
             // Input validation
-            if (orderRequest == null || orderRequest.Customer == null || orderRequest.Products == null || orderRequest.Products.Count == 0)
+            if (orderRequest == null || orderRequest.Customer == null || orderRequest.ProductIDs == null || orderRequest.ProductIDs.Count == 0)
             {
                 return BadRequest("Invalid order request");
             }
@@ -69,19 +69,27 @@ namespace NorthwindWebApp.Controllers
                     _context.Orders.Add(order);
                     _context.SaveChanges();  // Save order first to generate OrderId
 
-                    // Create order details for each ordered product
-                    foreach (var product in orderRequest.Products)
+                    // Create order details for each ordered product ID
+                    foreach (var productId in orderRequest.ProductIDs)
                     {
-                        var orderDetail = new OrderDetail
+                        var product = _context.Products.Find(productId);
+                        if (product != null)
                         {
-                            // use generated order and product ID
-                            Order = order,
-                            Product = product,
-                            UnitPrice = product.UnitPrice,
-                            Quantity = orderRequest.Quantity,
-                            Discount = 0  // Assuming no discount is applied for now
-                        };
-                        _context.OrderDetails.Add(orderDetail);
+                            var orderDetail = new OrderDetail
+                            {
+                                OrderId = order.OrderId,
+                                ProductId = product.ProductId,
+                                UnitPrice = product.UnitPrice,
+                                Quantity = orderRequest.Quantity,
+                                Discount = 0 // Assuming no discount is applied for now
+                            };
+                            _context.OrderDetails.Add(orderDetail);
+                        }
+                        // product id not found
+                        else
+                        {
+                            return BadRequest("Product ID not found");
+                        }
                     }
 
                     _context.SaveChanges();
