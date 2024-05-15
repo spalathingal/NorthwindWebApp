@@ -1,0 +1,58 @@
+{
+	"info": {
+		"_postman_id": "c8506e4e-f97b-4290-a51b-b0999091546d",
+		"name": "Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://localhost:7018/api/products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7018/api/products",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7018",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:7018/api/orders",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customer\": {\r\n    \"companyName\": \"New Customer Company\",\r\n    \"contactName\": \"John Doe\",\r\n    \"contactTitle\": \"CEO\",\r\n    \"address\": \"123 Main Street\",\r\n    \"city\": \"New York\",\r\n    \"region\": \"NY\",\r\n    \"postalCode\": \"10001\",\r\n    \"country\": \"USA\",\r\n    \"phone\": \"123-456-7890\",\r\n    \"fax\": \"123-456-7891\"\r\n  },\r\n  \"productIDs\": [ 101, 102 ],\r\n  \"order\": {\r\n    \"employeeId\": 5,\r\n    \"orderDate\": \"2024-04-06T08:00:00\",\r\n    \"requiredDate\": \"2024-04-20T08:00:00\",\r\n    \"shippedDate\": null,\r\n    \"shipVia\": 3,\r\n    \"freight\": 9,\r\n    \"shipName\": \"New Customer Company\",\r\n    \"shipAddress\": \"123 Main Street\",\r\n    \"shipCity\": \"New York\",\r\n    \"shipRegion\": \"NY\",\r\n    \"shipPostalCode\": \"10001\",\r\n    \"shipCountry\": \"USA\",\r\n    \"quantity\": 15\r\n  }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7018/api/orders",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7018",
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

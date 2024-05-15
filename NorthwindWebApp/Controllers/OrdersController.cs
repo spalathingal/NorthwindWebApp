@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using NorthwindWebApp.DTOs;
-using NorthwindWebApp.Models;
+using NorthwindWebApp.Services;
 
 namespace NorthwindWebApp.Controllers
 {
@@ -8,118 +9,32 @@ namespace NorthwindWebApp.Controllers
     [Route("api/[controller]")]
     public class OrdersController : ControllerBase
     {
-        private readonly NorthwindDbContext _context;
+        private readonly OrderService _orderService;
+        private readonly ILogger<OrdersController> _logger; // Add logger field
 
-        public OrdersController(NorthwindDbContext context)
+        public OrdersController(OrderService orderService, ILogger<OrdersController> logger)
         {
-            _context = context;
+            _orderService = orderService;
+            _logger = logger;
         }
 
         // POST: api/orders
         [HttpPost]
         public IActionResult PostOrder(OrderRequestDTO orderRequest)
         {
-            // Input validation
-            if (orderRequest == null || orderRequest.Customer == null || orderRequest.ProductIDs == null || orderRequest.ProductIDs.Count == 0)
-            {
-                return BadRequest("Invalid order request");
-            }
-
             try
             {
-                // If any part of the process fails, the transaction will be rolled back.
-                using (var transaction = _context.Database.BeginTransaction())
-                {
-                    // Create Customer entity
-                    var customer = new Customer
-                    {
-                        CompanyName = orderRequest.Customer.CompanyName,
-                        ContactName = orderRequest.Customer.ContactName,
-                        ContactTitle = orderRequest.Customer.ContactTitle,
-                        Address = orderRequest.Customer.Address,
-                        City = orderRequest.Customer.City,
-                        Region = orderRequest.Customer.Region,
-                        PostalCode = orderRequest.Customer.PostalCode,
-                        Country = orderRequest.Customer.Country,
-                        Phone = orderRequest.Customer.Phone,
-                        Fax = orderRequest.Customer.Fax
-                    };
-
-                    _context.Customers.Add(customer);
-                    _context.SaveChanges();  // Save customer first to generate CustomerId
-
-                    // Create Order entity
-                    var order = new Order
-                    {
-                        CustomerId = customer.CustomerId,  // Use generated CustomerId
-                        EmployeeId = orderRequest.EmployeeId,
-                        OrderDate = orderRequest.OrderDate,
-                        RequiredDate = orderRequest.RequiredDate,
-                        ShippedDate = orderRequest.ShippedDate,
-                        ShipVia = orderRequest.ShipVia,
-                        Freight = orderRequest.Freight,
-                        ShipName = orderRequest.ShipName,
-                        ShipAddress = orderRequest.ShipAddress,
-                        ShipCity = orderRequest.ShipCity,
-                        ShipRegion = orderRequest.ShipRegion,
-                        ShipPostalCode = orderRequest.ShipPostalCode,
-                        ShipCountry = orderRequest.ShipCountry
-                    };
-
-                    _context.Orders.Add(order);
-                    _context.SaveChanges();  // Save order first to generate OrderId
-
-                    // Create order details for each ordered product ID
-                    foreach (var productId in orderRequest.ProductIDs)
-                    {
-                        var product = _context.Products.Find(productId);
-                        if (product != null)
-                        {
-                            var orderDetail = new OrderDetail
-                            {
-                                OrderId = order.OrderId,
-                                ProductId = product.ProductId,
-                                UnitPrice = product.UnitPrice,
-                                Quantity = orderRequest.Quantity,
-                                Discount = 0 // Assuming no discount is applied for now
-                            };
-                            _context.OrderDetails.Add(orderDetail);
-                        }
-                        // product id not found
-                        else
-                        {
-                            return BadRequest("Product ID not found");
-                        }
-                    }
-
-                    _context.SaveChanges();
-
-                    transaction.Commit();  // Commit transaction if all operations succeed
-
-                    // Get the newly created order details
-                    var customerId = customer.CustomerId;
-                    var orderId = order.OrderId;
-                    var productIds = orderRequest.ProductIDs;
-
-                    // Create a response object with the additional details
-                    var response = new
-                    {
-                        Message = "Order successfully created",
-                        CustomerId = customerId,
-                        OrderId = orderId,
-                        ProductIds = productIds
-                    };
-
-                    return Ok(response); // Return the response object
-
-                    return Ok(order);
-                }
+                var response = _orderService.CreateOrder(orderRequest);
+                return Ok(response);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex}");
+                // Log the exception details including the stack trace
+                _logger.LogError(ex, "An error occurred while processing the request.");
+
+                // Return a generic error message to the client
+                return StatusCode(500, "Internal server error. Please try again later.");
             }
         }
-
     }
 }

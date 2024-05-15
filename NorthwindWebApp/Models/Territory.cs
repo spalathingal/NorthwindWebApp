@@ -1,10 +1,22 @@
-﻿namespace NorthwindWebApp.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace NorthwindWebApp.Models;
+
+// Territory model
+[Table("territories")]
+public class Territory
 {
-    // Territory model
-    public class Territory
-    {
-        public string TerritoryId { get; set; }
-        public string TerritoryDescription { get; set; }
-        public int RegionId { get; set; }
-    }
+    [Key]
+    [Required(ErrorMessage = "Territory ID is required")]
+    public string TerritoryId { get; set; }
+
+    [Required(ErrorMessage = "Territory description is required")]
+    public string TerritoryDescription { get; set; }
+
+    [Required(ErrorMessage = "Region ID is required")]
+    [ForeignKey("Region")]
+    public int RegionId { get; set; }
+
+    public Region Region { get; set; }
 }

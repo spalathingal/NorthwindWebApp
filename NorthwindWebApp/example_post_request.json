@@ -12,17 +12,19 @@
     "fax": "123-456-7891"
   },
   "productIDs": [ 101, 102 ],
-  "employeeId": 5,
-  "orderDate": "2024-04-06T08:00:00",
-  "requiredDate": "2024-04-20T08:00:00",
-  "shippedDate": null,
-  "shipVia": 3,
-  "freight": 9,
-  "shipName": "New Customer Company",
-  "shipAddress": "123 Main Street",
-  "shipCity": "New York",
-  "shipRegion": "NY",
-  "shipPostalCode": "10001",
-  "shipCountry": "USA",
-  "quantity": 15
+  "order": {
+    "employeeId": 5,
+    "orderDate": "2024-04-06T08:00:00",
+    "requiredDate": "2024-04-20T08:00:00",
+    "shippedDate": null,
+    "shipVia": 3,
+    "freight": 9,
+    "shipName": "New Customer Company",
+    "shipAddress": "123 Main Street",
+    "shipCity": "New York",
+    "shipRegion": "NY",
+    "shipPostalCode": "10001",
+    "shipCountry": "USA",
+    "quantity": 15
+  }
 }

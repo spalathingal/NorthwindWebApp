@@ -1,9 +1,16 @@
-﻿namespace NorthwindWebApp.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace NorthwindWebApp.Models;
+
+// Region model
+[Table("regions")]
+public class Region
 {
-    // Region model
-    public class Region
-    {
-        public int RegionId { get; set; }
-        public string RegionDescription { get; set; }
-    }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int RegionId { get; set; }
+
+    [Required(ErrorMessage = "Region description is required")]
+    public string RegionDescription { get; set; }
 }

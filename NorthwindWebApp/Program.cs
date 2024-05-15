@@ -1,11 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using NorthwindWebApp.Models;
+using NorthwindWebApp.Context;
+using NorthwindWebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<ProductsService>();
 
 // Configure the database context
 builder.Services.AddDbContext<NorthwindDbContext>(options =>
