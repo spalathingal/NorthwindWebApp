@@ -10,7 +10,7 @@ Quantity, Price, In Stock Units.
 
 ## Dependencies
 - Install [.NET](https://dotnet.microsoft.com/en-us/download)
-- Install [Visual Studio](https://pipenv.pypa.io/en/latest/)
+- Install [Visual Studio](https://visualstudio.microsoft.com/)
 
 ## To Run
 - Import project into Visual Studio
